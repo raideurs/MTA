@@ -1,0 +1,124 @@
+﻿<pp-header
+  data-testid="app-header"
+  productName="MTA Back Office"
+  homeHref="/"
+  color="yellow"
+/>
+
+<main class="page">
+  <nav class="tabs" role="tablist" aria-label="Sections du back office">
+    <button
+      type="button"
+      role="tab"
+      class="tab"
+      [class.active]="activeTab() === 'registry'"
+      [attr.aria-selected]="activeTab() === 'registry'"
+      (click)="activeTab.set('registry')"
+    >Agents &amp; Chatbot</button>
+    <button
+      type="button"
+      role="tab"
+      class="tab"
+      [class.active]="activeTab() === 'jira'"
+      [attr.aria-selected]="activeTab() === 'jira'"
+      (click)="activeTab.set('jira')"
+    >Jira MTA</button>
+  </nav>
+
+  @if (activeTab() === 'registry') {
+  <section class="panel" aria-labelledby="config-title">
+    <h2 id="config-title">1 &middot; Configuration de la source</h2>
+
+    <div class="grid">
+      <div class="field">
+        <label id="mode-label" for="mode-input">Mode</label>
+        <pp-dropdown-simple
+          data-testid="mode-select"
+          inputId="mode-input"
+          aria-labelledby="mode-label"
+          [dropdownListItems]="modeItems"
+          [(ngModel)]="mode"
+          (ppOnSelectedValue)="onModeChange()"
+        />
+        <span class="hint">Le mode <b>Mock</b> valide le comportement sans reseau. Le mode <b>API reelle</b> valide les appels HTTP.</span>
+      </div>
+
+      <div class="field">
+        <label id="heading-label" for="heading-input">Titre de la popin</label>
+        <pp-text-input
+          data-testid="heading-input"
+          inputId="heading-input"
+          aria-labelledby="heading-label"
+          [(ngModel)]="heading"
+        />
+        <span class="hint">Critere 10 &mdash; la popin s'appelle <code>agent-registry</code>.</span>
+      </div>
+
+      <div class="field">
+        <label id="base-url-label" for="base-url-input">Base URL de l'API</label>
+        <pp-text-input
+          data-testid="base-url-input"
+          inputId="base-url-input"
+          aria-labelledby="base-url-label"
+          placeholder="http://localhost:8000"
+          [(ngModel)]="baseUrl"
+        />
+        <span class="hint">Utilisee seulement en mode API reelle.</span>
+      </div>
+
+      <div class="field">
+        <label id="api-key-label" for="api-key-input">x-api-key</label>
+        <pp-password-input
+          data-testid="api-key-input"
+          inputId="api-key-input"
+          aria-labelledby="api-key-label"
+          autocomplete="off"
+          [(ngModel)]="apiKey"
+        />
+        <span class="hint">Critere 9 &mdash; jamais un attribut : fournie via une <b>fonction appelee a l'ouverture</b>.</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <pp-button
+        data-testid="apply-open-button"
+        label="Appliquer &amp; ouvrir la popin"
+        variant="primary"
+        (ppOnSubmit)="onApplyOpen()"
+      />
+      <pp-button
+        data-testid="close-button"
+        label="Fermer"
+        variant="secondary"
+        (ppOnSubmit)="onClose()"
+      />
+      <span class="badge" data-testid="mode-badge">{{ modeBadge() }}</span>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="log-title">
+    <h2 id="log-title">2 &middot; Journal des evenements &amp; appels</h2>
+    <div class="log" data-testid="event-log">
+      @if (logs().length === 0) {
+        <span class="muted">En attente&hellip;</span>
+      }
+      @for (entry of logs(); track $index) {
+        <div class="log-line">
+          <span class="t">{{ entry.time }}</span>
+          <span class="ev">{{ entry.kind }}</span>
+          {{ entry.detail }}
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="panel">
+    <agent-registry #reg id="reg"></agent-registry>
+    <mini-chatbot token="eyJhbGciOiJSUzI1NiIsImtpZCI6ImxvY2FsLWRldi1rZXkifQ.eyJtYXQiOiJsb2NhbC1kZXYtdXNlciIsImlhdCI6MTc5MDM1MjQ3NywiaXNzIjoibG9jYWwtZGV2LWlzc3VlciJ9.Sql2SiZDsoCAA04oIwsKI6jlK2WA7bfOSRNxKtT6lHtjnL_YavbD78_EECBrxilQ1uK91FCjeJSUGCavlEYUVRmJDlEesrPoTHcc0lzYXNoTrH7DzsdERTIV1dJr-CJF9FfqplM0Z_xVrex_3SMlW-xSQE_NJXVxO6902SIFlEk_cX_-sCFF_WvtVcJMZLTbieYIKY9HrXCTusmDU7tprbn7QMQVDZqmUB3eftxO2BJWpyxEHptIEC7fZem4jbTWOQ7h3KhkTUYTBXts-BDQS_nV7bExGRkz_o-K3vfEQ6w8xb9Cj1h49UXeJ-8T9mxyYN4qO6Q_fc_jqLReBCZzaA" environnement="localhost"></mini-chatbot>
+  </section>
+  }
+
+  @if (activeTab() === 'jira') {
+    <app-jira-board />
+  }
+</main>

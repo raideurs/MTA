@@ -1,0 +1,110 @@
+:host {
+  display: block;
+}
+
+// Comme dans agent-backoffice/index.html : évite que le lanceur flottant
+// d'<agent-registry> (fixed bottom-right) ne recouvre celui de <mini-chatbot>.
+agent-registry {
+  --arw-launcher-position: static;
+  --arw-launcher-right: auto;
+  --arw-launcher-bottom: auto;
+}
+
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--pp-spacing-08, 24px) var(--pp-spacing-06, 16px) var(--pp-spacing-15, 120px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--pp-spacing-08, 24px);
+}
+
+.panel {
+  background: var(--pp-neutral-Highest, #fff);
+  border: var(--pp-border-width-01, 1px) solid var(--pp-neutral-lower, #d9d9d4);
+  border-radius: var(--pp-radius-04, 12px);
+  padding: var(--pp-spacing-08, 24px);
+}
+
+.panel h2 {
+  margin: 0 0 var(--pp-spacing-06, 16px);
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--pp-neutral-medium, #5a5a55);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--pp-spacing-05, 14px);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pp-spacing-02, 6px);
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--pp-neutral-medium, #5a5a55);
+}
+
+.row {
+  display: flex;
+  gap: var(--pp-spacing-04, 10px);
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: var(--pp-spacing-06, 16px);
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: var(--pp-neutral-lowest, #f4f4f2);
+  border: var(--pp-border-width-01, 1px) solid var(--pp-neutral-lower, #d9d9d4);
+  font-size: 12px;
+}
+
+.log {
+  background: var(--pp-neutral-high, #1a1a18);
+  color: var(--pp-neutral-lowest, #e8e8e2);
+  border-radius: var(--pp-radius-03, 10px);
+  padding: 12px 14px;
+  font: 12.5px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  max-height: 260px;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+.log .ev { color: var(--pp-primary-medium, #ffd200); }
+.log .t { color: var(--pp-neutral-medium, #9a9a92); }
+.log .muted { color: var(--pp-neutral-medium, #9a9a92); }
+
+@media (max-width: 640px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+.tabs {
+  display: flex;
+  gap: var(--pp-spacing-02, 6px);
+}
+
+.tab {
+  border: var(--pp-border-width-01, 1px) solid var(--pp-neutral-lower, #d9d9d4);
+  background: var(--pp-neutral-Highest, #fff);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--pp-neutral-medium, #5a5a55);
+}
+
+.tab.active {
+  background: var(--pp-primary-medium, #ffd200);
+  border-color: var(--pp-primary-medium, #ffd200);
+  color: var(--pp-neutral-high, #1a1a18);
+}
